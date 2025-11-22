@@ -1,7 +1,3 @@
-Here is the complete, updated README.md with the proxy instructions added.
-
-Markdown
-
 # Clash Royale Integration for Home Assistant
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs)
