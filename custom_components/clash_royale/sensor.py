@@ -50,7 +50,7 @@ class ClashRoyaleDataUpdateCoordinator(DataUpdateCoordinator):
                 else:
                     _LOGGER.error(f"API error: {response.status}")
                     raise UpdateFailed(f"API returned status {response.status}")
-
+        
         except UpdateFailed:
             # Re-raise UpdateFailed without wrapping it again or logging it again
             raise
@@ -63,7 +63,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_e
     # Use data from the entry setup in __init__.py if available, or direct from entry
     # Best practice is to get coordinator from hass.data if setup there, but currently
     # the coordinator is created here.
-
+    
     api_token = entry.data.get("api_token")
     player_tag = entry.data.get("player_tag")
     
@@ -74,7 +74,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_e
     proxy_url = entry.options.get("proxy_url", entry.data.get("proxy_url"))
     if proxy_url == "":
         proxy_url = None
-
+    
     # Create coordinator for shared data updates
     coordinator = ClashRoyaleDataUpdateCoordinator(hass, api_token, player_tag, update_interval, proxy_url)
     await coordinator.async_config_entry_first_refresh()

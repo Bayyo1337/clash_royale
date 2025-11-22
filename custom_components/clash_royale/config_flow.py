@@ -46,9 +46,11 @@ class ClashRoyaleConfigFlow(config_entries.ConfigFlow, domain="clash_royale"):
     async def async_step_proxy(self, user_input=None):
         """Handle the proxy setup step."""
         errors = {}
-
+        
         if user_input is not None:
             self.proxy_url = user_input.get("proxy_url")
+            if not self.proxy_url:
+                self.proxy_url = None
             return await self.async_step_token()
 
         return self.async_show_form(
@@ -76,7 +78,7 @@ class ClashRoyaleConfigFlow(config_entries.ConfigFlow, domain="clash_royale"):
                     errors.update(validation_result["errors"])
         
         return self.async_show_form(
-            step_id="token",
+            step_id="token", 
             data_schema=APITOKEN_SCHEMA,
             errors=errors
         )
@@ -206,7 +208,7 @@ class ClashRoyaleOptionsFlowHandler(config_entries.OptionsFlow):
 
         options_schema = vol.Schema({
             vol.Required("interval", default=self.config_entry.options.get("interval", 300)): int,
-            vol.Optional("proxy_url", default=self.config_entry.options.get("proxy_url", self.config_entry.data.get("proxy_url", ""))): str,
+            vol.Optional("proxy_url", default=self.config_entry.options.get("proxy_url") or self.config_entry.data.get("proxy_url") or ""): str,
         })
 
         return self.async_show_form(step_id="init", data_schema=options_schema)
